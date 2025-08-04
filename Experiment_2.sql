@@ -1,27 +1,49 @@
-CREATE TABLE Employee (
-    EmpID INT PRIMARY KEY,
-    Ename VARCHAR(50),
-    Department VARCHAR(50),
-    ManagerID INT
+-- Create Students Table
+CREATE TABLE Students (
+    StudentID INT PRIMARY KEY,
+    StudentName VARCHAR(50),
+    Department VARCHAR(50)
 );
 
-INSERT INTO Employee(EmpID, Ename,Department,ManagerID) VALUES
-(1, 'Alice',   'HR',      NULL),
-(2, 'Bob',     'Finance', 1),
-(3, 'Charlie', 'IT',      1),
-(4, 'David',   'Finance', 2),
-(5, 'Eve',     'IT',      3),
-(6, 'Frank',   'HR',      1);
+-- Create Marks Table
+CREATE TABLE Marks (
+    MarkID INT PRIMARY KEY,
+    StudentID INT,
+    Subject VARCHAR(50),
+    Marks INT,
+    FOREIGN KEY (StudentID) REFERENCES Students(StudentID)
+);
+
+INSERT INTO Students (StudentID, StudentName, Department) VALUES
+(1, 'Aarav', 'Computer Science'),
+(2, 'Diya', 'Mechanical'),
+(3, 'Rohan', 'Electronics'),
+(4, 'Isha', 'Computer Science'),
+(5, 'Kabir', 'Mechanical');
+
+INSERT INTO Marks (MarkID, StudentID, Subject, Marks) VALUES
+(1, 1, 'Math', 85),
+(2, 1, 'Physics', 78),
+(3, 2, 'Math', 92),
+(4, 2, 'Physics', 81),
+(5, 3, 'Math', 67),
+(6, 3, 'Physics', 88),
+(7, 4, 'Math', 91),
+(8, 4, 'Physics', 95),
+(9, 5, 'Math', 75),
+(10, 5, 'Physics', 84);
 
 SELECT 
-    E1.Ename AS EmployeeName,
-    E1.Department AS EmployeeDept,
-    E2.Ename AS ManagerName,
-    E2.Department AS ManagerDept
+    S.StudentName,
+    S.Department,
+    M.Subject,
+    M.Marks
 FROM 
-    Employee E1
-LEFT OUTER JOIN 
-    Employee E2
-ON 
-    E1.ManagerID = E2.EmpID;
+    Students S
+JOIN 
+    Marks M ON S.StudentID = M.StudentID
+WHERE 
+    M.Marks > 80;
+
+
 
